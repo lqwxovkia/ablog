@@ -1,0 +1,12 @@
+{
+  "title": "我的博客",
+  "description": "这里记录我的文章、笔记与想法。",
+  "author": "Your Name",
+  "url": "https://example.com",
+  "lang": "zh-CN",
+  "footer": "保留所有权利。",
+  "nav": [
+    { "title": "首页", "path": "/" },
+    { "title": "关于", "path": "/about.html" }
+  ]
+}

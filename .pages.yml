@@ -1,0 +1,65 @@
+# Pages CMS 配置（https://app.pagescms.org）
+# 定义了你在这个后台里能编辑什么、以及内容存在仓库的哪里。
+media:
+  input: public/media
+  output: /media
+
+content:
+  - name: posts
+    label: 文章
+    type: collection
+    path: content/posts
+    format: yaml-frontmatter
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: date
+        label: 日期
+        type: date
+        required: true
+      - name: summary
+        label: 摘要
+        type: string
+        description: 显示在文章列表里的一句话简介，可留空
+      - name: tags
+        label: 标签
+        type: string
+        description: 多个标签用逗号分隔，例如：随笔, 技术
+      - name: draft
+        label: 草稿
+        type: boolean
+        default: false
+      - name: body
+        label: 正文
+        type: rich-text
+        options:
+          format: markdown
+          switcher: true
+
+  - name: about
+    label: 关于页面
+    type: file
+    path: content/about.md
+    format: yaml-frontmatter
+    fields:
+      - name: title
+        label: 标题
+        type: string
+      - name: description
+        label: 描述
+        type: string
+      - name: body
+        label: 正文
+        type: rich-text
+        options:
+          format: markdown
+
+  - name: settings
+    label: 站点设置
+    type: file
+    path: site.config.json
+    format: code
+    options:
+      language: json
