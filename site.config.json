@@ -7,6 +7,6 @@
   "footer": "保留所有权利。",
   "nav": [
     { "title": "首页", "path": "/" },
-    { "title": "关于", "path": "/about.html" }
+    { "title": "关于", "path": "/about" }
   ]
 }

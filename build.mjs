@@ -56,7 +56,7 @@ function normalizeTags(value) {
   return arr.map((t) => String(t).trim()).filter(Boolean);
 }
 
-const urlOfPost = (slug) => `/posts/${encodeURIComponent(slug)}.html`;
+const urlOfPost = (slug) => `/posts/${encodeURIComponent(slug)}`;
 const abs = (p) => (site.url || '').replace(/\/$/, '') + p;
 
 function rimraf(dir) {
@@ -193,7 +193,7 @@ function build() {
 </article>`;
     fs.writeFileSync(
       path.join(DIST, `${base}.html`),
-      layout({ title: fm.title || base, description: fm.description, content: inner, canonical: abs(`/${base}.html`) })
+      layout({ title: fm.title || base, description: fm.description, content: inner, canonical: abs(`/${base}`) })
     );
   }
 
@@ -229,7 +229,7 @@ ${items}
   fs.writeFileSync(path.join(DIST, 'rss.xml'), rss);
 
   // sitemap
-  const urls = [abs('/'), abs('/about.html'), ...posts.map((p) => abs(urlOfPost(p.slug)))];
+  const urls = [abs('/'), abs('/about'), ...posts.map((p) => abs(urlOfPost(p.slug)))];
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((u) => `  <url><loc>${escapeHtml(u)}</loc></url>`).join('\n')}
@@ -268,7 +268,10 @@ function serve(port = 4321) {
       if (p === '/') p = '/index.html';
       let file = path.join(DIST, p);
       if (!file.startsWith(DIST)) return res.writeHead(403).end('403');
-      if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) file = path.join(DIST, '404.html');
+      if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) {
+        if (fs.existsSync(file + '.html')) file = file + '.html';
+        else file = path.join(DIST, '404.html');
+      }
       res.writeHead(fs.existsSync(file) ? (file.endsWith('404.html') ? 404 : 200) : 404, {
         'Content-Type': types[path.extname(file)] || 'application/octet-stream',
       });
